@@ -10,21 +10,21 @@ public class GameManager : MonoBehaviour
     public List<GameObject> targets;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
+
+    [SerializeField] AudioSource shootSound;
+    [SerializeField] AudioSource gameSound;
+
     public Button restartButton;
+    public GameObject titleScreen;
+    
     private int score;
     public float spawnRate = 1.0f;
     public bool isGameActive;
-    
-    void Start()
-    {   isGameActive = true;
-        score = 0;
-        gameOverText.gameObject.SetActive(false);
-        StartCoroutine(SpawnTarget());
-        UpdateScore(0);
-        
-       
-    }
 
+    private void Start()
+    {
+        
+    }
 
     IEnumerator SpawnTarget()
     {
@@ -35,14 +35,14 @@ public class GameManager : MonoBehaviour
             Instantiate(targets[index]);
           
         }
-      
-
     }
 
     public void UpdateScore(int scoreToAdd)
     {
+       
         score += scoreToAdd;
-        scoreText.text = "Score : " + score;
+        scoreText.text = "Score : " + score; 
+        shootSound.Play();
     }
 
     public void GameOver()
@@ -54,7 +54,21 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+       SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    
+
+    public void StartGame(int difficulty)
+    {
+        isGameActive = true;
+        score = 0;
+        spawnRate = (spawnRate * 2) / difficulty ;
+        
+        StartCoroutine(SpawnTarget());
+        UpdateScore(0);
+
+        titleScreen.gameObject.SetActive(false);
+    }
+
+    
 }

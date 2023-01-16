@@ -6,8 +6,10 @@ public class Target : MonoBehaviour
 {
     private Rigidbody rb;
     private GameManager gameManager;
-    private float minSpeed = 12;
-    private float maxSpeed = 16;
+
+     private float minSpeed = 12;
+     private float maxSpeed = 16;
+    
     private float maxTorque = 10;
     private float xRange = 4;
     private float ySpawnPos = -2;
@@ -23,6 +25,7 @@ public class Target : MonoBehaviour
         rb.AddTorque(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
 
         transform.position = RandomSpawnPos();
+        
     }
 
     
@@ -32,9 +35,9 @@ public class Target : MonoBehaviour
         if (gameManager.isGameActive)
         {
             Destroy(gameObject);
+            
             Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
             gameManager.UpdateScore(pointValue);
-
         }
        
     }
